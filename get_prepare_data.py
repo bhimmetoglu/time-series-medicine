@@ -157,41 +157,14 @@ def PIB(clips, target, freq_bands, block_s = 60, n_channels = 16):
 		# This implementation takes care of unequal number of blocks 
 		if (iclip == 0):
 			X_train = X
-			Y_train = Y
+			Y_train = Y[:,None]
 		else:
 			X_train = np.vstack((X_train, X))
-			Y_train = np.vstack((Y_train, Y))
+			Y_train = np.vstack((Y_train, Y[:,None]))
 
 		iclip += 1
 
 	# Return 
 	return X_train, Y_train
-
-## 1d convolutions to reduce the sequence length (for LSTM)
-def strides(input_segment, window, stride):
-	""" Construct features by strdides (1d convolution) """
-
-	# Dimensions
-	n, T = input_segment.shape
-
-	# Determine sequence length
-	div = (T-1-window)%stride
-	
-	if (div == 0):
-		seqLen = (T-1-window) // stride
-	else: 
-		# Pad with 0's 
-		pad = stride - div
-		input_data = np.concatenate((input_segment, np.zeros((n,pad))), axis=1)
-		seqLen = (input_segment.shape[1]-1-window) // stride
-
-	# Construct window averages
-	index = 0
-	X = np.zeros((n, seqLen))
-	for j in range(seqLen):
-		X[:,j] = np.mean(input_segment[:,(index+j):(index+j+seqLen)], axis=1)
-		index += 1
-
-	return X
 
 
