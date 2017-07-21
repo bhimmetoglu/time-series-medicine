@@ -16,9 +16,11 @@ This piece of code performs data loading and construction of simple features for
 sets can be generated, described below:
 
 1. basic features
+
 The basic features rely on the variance of whole segments in each channels, as well as the correlation matrix between channels.
 
 2. PIB features
+
 PIB (Power in band) features are constructed using the power spectrum of blocks of 60s within each segment. They power spctra 
 are calulated in a range of 6 frequency bands (0.1-4, 4-8, 8-12, 12-30, 30-70, 70-180 Hz). As a result, these features
 contain only intra channel correlations. This was used in the original [publication](https://doi.org/10.1371/journal.pone.0081920) for some of the data.  
