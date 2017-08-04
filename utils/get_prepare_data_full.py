@@ -145,7 +145,7 @@ def get_stats(data_block):
 def get_features(input_segment, target, freq_bands, sampling_freq, block_s = 60, top_freq = 40, p_power = 0.5):
 	""" Engineer features from time-series 
 	    input_segment      : The EEG segment
-	    target             : 1/0 (preictal/interictial)
+	    target             : 1/0 (preictal/interictial); None for test set
 	    freq_bands         : The frequency bands where power is calculated
 	    sampling_freq      : Samplig frequency
 	    block_s            : Size of the block in seconds (default = 60)
@@ -195,19 +195,21 @@ def get_features(input_segment, target, freq_bands, sampling_freq, block_s = 60,
 	# Targets
 	if (target == 1):
 		Y = np.ones(n_blocks)
-	else:
+	elif (target == 0):
 		Y = np.zeros(n_blocks)
+	else:
+		Y = None
+		
 
 	# Return
-	return feats, Y
+	return feats, Y, n_blocks
 
 ## Combine all the fearures to construct the full design matrix
-def features(clips, target, freq_bands, n_channels = 16, block_s = 60, top_freq = 40, p_power = 0.5):
+def features(clips, target, freq_bands, block_s = 60, top_freq = 40, p_power = 0.5):
 	""" Collect all egnineered features 
 	    clips              : List of clips
-	    target             : 1/0 (preictal/interictial)
+	    target             : 1/0 (preictal/interictial); None for test set
 	    freq_bands         : The frequency bands where power is calculated
-	    n_channels         : Number of channels
 	    block_s            : Size of the block in seconds (default = 60)
 	    top_freq           : High frequency cut-off for computing spectral edge frequency
 	    p_power            : Quantile for spectral edge frequency calculation 
@@ -216,30 +218,44 @@ def features(clips, target, freq_bands, n_channels = 16, block_s = 60, top_freq 
 	# Number of clips
 	n_clips = len(clips)
 
+	# For test set only
+	if target is None:
+		test_dict = {}
+
 	# Loop over all clips and store data
 	iclip = 0
+
 	for fil in clips:
 		clip = loadmat(fil)
 		segment_name = list(clip.keys())[3] # Get segment name
 		input_segment = clip[segment_name][0][0][0] # Get electrode data
 		sampling_freq = np.squeeze(clip[segment_name][0][0][1]) # Sampling frequency
 
-		if (clip[segment_name][0][0][0].shape[0] != n_channels):
-			raise ValueError('Wrong number of channels!')
+		# Get number of channels
+		n_channels = clip[segment_name][0][0][0].shape[0]
 
-		# Get PIB features
-		X,Y = get_features(input_segment, target, freq_bands, sampling_freq, block_s, top_freq, p_power)
+		# Get features
+		X,Y, n_blocks = get_features(input_segment, target, freq_bands, sampling_freq, block_s, top_freq, p_power)
 
 		# Concatenate design matrix and target vector
-		# This implementation takes care of unequal number of blocks 
 		if (iclip == 0):
 			X_train = np.stack(X)
-			Y_train = Y[:,None]
+			Y_train = Y[:,None] if Y is not None else None
 		else:
 			X_train = np.vstack((X_train, np.stack(X)))
-			Y_train = np.vstack((Y_train, Y[:,None]))
+			Y_train = np.vstack((Y_train, Y[:,None])) if Y is not None else None
+
+		# For test set only:
+		if target is None:
+			clip_name = os.path.split(fil)[-1]
+			start = iclip * n_blocks
+			stop = start + n_blocks
+			test_dict[clip_name] = np.arange(start,stop, dtype=int).tolist()
 
 		iclip += 1
 
 	# Return 
-	return X_train, Y_train
+	if target is not None:
+		return X_train, Y_train, n_blocks
+	else:
+		return X_train, n_blocks, test_dict

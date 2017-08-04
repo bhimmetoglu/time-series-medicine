@@ -1,5 +1,12 @@
 # seizure-forecast
 
+The aim of this project is to study EEG signals from subjects with epilepsy and predict oncoming seizures. The data is a collection of segments which contain recordings of signals in multiple channels. Each segment is to be classified as
+preictal (oncoming seizure) or interictal (no seizure). Two main approaches are adopted for the task of classifying the 
+segments:
+
+* Manually engineered features used to train a classifier
+* Long short term memory (LSTM) networks which take the (time-averaged) signals as inputs  
+
 The data is available for downlaod from [Kaggle](https://www.kaggle.com/c/seizure-prediction/data). The data contains
 clips of EEG time-series data corresponding to interictal (no oncoming seizure) and preictal (oncoming seuizure) pieces. 
 Each clip is provided in '.mat' format and needs to be converted into numpy arrays. This is achieved by the functions in 

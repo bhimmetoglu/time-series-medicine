@@ -3,17 +3,18 @@
 # 7/26/2017
 
 import numpy as np
+import os
 from scipy.io import loadmat
 
 ## Construct LSTM seuqnces from one segment
 def lstm_sequence(input_segment, target, sampling_freq, window, stride, block_s = 60):
 	""" Function for generating blocks of LSTM input tensors 
         input_segment : The EEG segment
-        target        : 1/0 (preictal/interictial)
+        target        : 1/0 (preictal/interictial); None for test
         sampling_freq : Samplig frequency
         window        : Window size for 1d convolutions on each block
         stride        : Stride size of the 1d convolution
-        block_s       :ize of the block in seconds (default = 60)
+        block_s       : Size of the block in seconds (default = 60)
 	"""
 
 	# Dimensions
@@ -53,20 +54,30 @@ def lstm_sequence(input_segment, target, sampling_freq, window, stride, block_s 
 	# Fill in the target
 	if (target == 1):
 		Y = np.ones(n_blocks)
-	else:
+	elif(target == 0):
 		Y = np.zeros(n_blocks)
+	else:
+		Y = None
 
 	# Return
-	return X, Y
+	return X, Y, n_blocks
 
 ## Collect all the segments to build a tesnsor input for LSTM. Uses the function lstm_sequence1971
-def lstm_build_input(clips, target, window, stride, n_channels = 16, block_s = 60):
+def lstm_build_input(clips, target, window, stride, block_s = 60):
 	""" Collect all the data and build sequences for LSTM
-	.......
+		clips              : List of clips
+	    target             : 1/0 (preictal/interictial); None for test set
+	    window             : Window size for 1d convolutions
+	    stride             : Length of the stride in 1d convolution
+	    block_s            : Size of the block in seconds (default = 60)
 	"""
 
 	# Number of clips
 	n_clips = len(clips)
+
+	# For test only
+	if target is None:
+		test_dict = {}
 
 	# Loop over all clips and store data
 	iclip = 0
@@ -76,21 +87,31 @@ def lstm_build_input(clips, target, window, stride, n_channels = 16, block_s = 6
 		input_segment = clip[segment_name][0][0][0] # Get electrode data
 		sampling_freq = np.squeeze(clip[segment_name][0][0][1]) # Sampling frequency
 
-		if (clip[segment_name][0][0][0].shape[0] != n_channels):
-			raise ValueError('Wrong number of channels!')
+		# Get number of channels
+		n_channels = clip[segment_name][0][0][0].shape[0]
 
 		# Get tensor input and targets from blocks
-		X, Y = lstm_sequence(input_segment, target, sampling_freq, window, stride, block_s)
+		X, Y, n_blocks = lstm_sequence(input_segment, target, sampling_freq, window, stride, block_s)
 
 		# Concatenate the tensor and target vector
 		if (iclip == 0):
 			X_train = X
-			Y_train = Y[:,None]
+			Y_train = Y[:,None] if Y is not None else None
 		else:
 			X_train = np.vstack((X_train,X))
-			Y_train = np.vstack((Y_train,Y[:,None]))
+			Y_train = np.vstack((Y_train,Y[:,None])) if Y is not None else None
+
+		# For test set only:
+		if target is None:
+			clip_name = os.path.split(fil)[-1]
+			start = iclip * n_blocks
+			stop = start + n_blocks
+			test_dict[clip_name] = np.arange(start,stop, dtype=int).tolist()
 
 		iclip +=1
 
 	# Return
-	return X_train, Y_train
+	if target is not None:
+		return X_train, Y_train, n_blocks
+	else:
+		return X_train, n_blocks, test_dict
