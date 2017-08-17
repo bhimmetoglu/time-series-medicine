@@ -62,7 +62,7 @@ def lstm_sequence(input_segment, target, sampling_freq, window, stride, block_s 
 	# Return
 	return X, Y, n_blocks
 
-## Collect all the segments to build a tesnsor input for LSTM. Uses the function lstm_sequence1971
+## Collect all the segments to build a tesnsor input for LSTM. Uses the function lstm_sequence
 def lstm_build_input(clips, target, window, stride, block_s = 60):
 	""" Collect all the data and build sequences for LSTM
 		clips              : List of clips

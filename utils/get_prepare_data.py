@@ -55,7 +55,7 @@ class Features(object):
 		iclip = 0
 		for fil in self.clips:
 			clip = loadmat(fil)
-			segment_name = list(clip.keys())[3] # Get segment name
+			segment_name = [el for el in list(clip.keys()) if "segment" in el][0] # Get segment name
 			input_segment = clip[segment_name][0][0][0] # Get electrode data
 			sampling_freq = np.squeeze(clip[segment_name][0][0][1]) # Sampling frequency
 
