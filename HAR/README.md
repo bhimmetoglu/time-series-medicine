@@ -47,5 +47,5 @@ CNN+LSTM | 95%
 [Xgboost](https://rpubs.com/burakh/har_xgb) | 96%
 
 ## CNN architecture
-![title](../img/HAR_cnn.img)
+![title](img/HAR_cnn.img)
 
