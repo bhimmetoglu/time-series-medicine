@@ -14,10 +14,10 @@ utils.
 
 ## Contents
 
-Docs  | Contains basic documentation about the project
-HAR   | Contains study of the related Human Activity Recognition (HAR) problem
-img   | Contains images used in notebooks
-utils | Contains several utilities for data cleaning and feature engineering
+Docs  | Contains basic documentation about the project                          |
+HAR   | Contains study of the related Human Activity Recognition (HAR) problem  |
+img   | Contains images used in notebooks                                       |
+utils | Contains several utilities for data cleaning and feature engineering    |
 
 ## Data processing and cleaning 
 
