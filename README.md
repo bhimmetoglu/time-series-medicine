@@ -29,6 +29,8 @@ Below are the desciption of these utilities.
 
 A simple summary of data preparation is explained in this [notebook](https://github.com/bhimmetoglu/seizure-forecast/blob/master/data_preparation.ipynb).
 
+Below is a description of data processing steps implemented in `utils`  
+
 #### **get_prepare_data.py**
 
 This piece of code performs data loading and construction of simple features for baseline models. Two types of feature
@@ -65,7 +67,14 @@ to a value that LSTM networks can handle.
 
 Wraps the above utilities to process data and saves it for later use
 
-## Data exploration
-A simple data exploration is provided in this [notebook](https://github.com/bhimmetoglu/seizure-forecast/blob/master/explore.ipynb),
-which includes some data visualization and basic modelling.
+## Notebooks
+
+Notebook | Description
+------ | --------
+[explore](https://github.com/bhimmetoglu/seizure-forecast/blob/master/explore.ipynb) | Data visualization and exploration         
+[data_preparation](https://github.com/bhimmetoglu/seizure-forecast/blob/master/data_preparation.ipynb) | Description of data cleaning and feature engineering
+[linear_model]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/linear_model.ipynb)) | Linear models for classification
+[linear_model_combineD14]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/linear_model_combineD14.ipynb))  | Linear model for Dogs 1 to 4 combined.
+[lstm_test]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/lstm_test.ipynb)) | A test for LSTM networks on Dog 1
+
 
