@@ -73,8 +73,8 @@ Notebook | Description
 ------ | --------
 [explore](https://github.com/bhimmetoglu/seizure-forecast/blob/master/explore.ipynb) | Data visualization and exploration         
 [data_preparation](https://github.com/bhimmetoglu/seizure-forecast/blob/master/data_preparation.ipynb) | Description of data cleaning and feature engineering
-[linear_model]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/linear_model.ipynb)) | Linear models for classification
-[linear_model_combineD14]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/linear_model_combineD14.ipynb))  | Linear model for Dogs 1 to 4 combined.
-[lstm_test]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/lstm_test.ipynb)) | A test for LSTM networks on Dog 1
+[linear_model]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/linear_model.ipynb) | Linear models for classification
+[linear_model_combineD14]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/linear_model_combineD14.ipynb)  | Linear model for Dogs 1 to 4 combined.
+[lstm_test]((https://github.com/bhimmetoglu/seizure-forecast/blob/master/lstm_test.ipynb) | A test for LSTM networks on Dog 1
 
 
