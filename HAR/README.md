@@ -49,3 +49,6 @@ CNN+LSTM | 95%
 ## CNN architecture
 ![title](img/HAR_cnn.png)
 
+## LSTM architecture
+![title](img/HAR_lstm.png)
+
