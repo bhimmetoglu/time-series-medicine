@@ -112,7 +112,7 @@ def generate_samples(seg_files, T_seg, new_seq_len = 1200, batch_size = 400):
 			Y_.append(y)
 
 		# Yield
-		yield np.concatenate(X_, axis = 0), np.array(Y_, dtype = np.int)
+		yield np.concatenate(X_, axis = 0), np.concatenate(Y_, axis=0)
 
 
 ## TO BE COMPLETED: A Function to create test samples
@@ -152,14 +152,6 @@ def generate_samples_balanced(seg_files, T_seg, new_seq_len = 1200, batch_size =
 		new_seq_len : The new sequence length
 		batch_size  : 
 	"""
-
-	# Get 1/0 segments within a give list of files
-	preictal_segs = [f for f in seg_files if "preictal" in f]
-	interictal_segs = [f for f in seg_files if "interictal" in f]
-
-	# Determine 0/1 ratio
-	ratio_ = int(np.ceil(len(interictal_segs) / len(preictal_segs)))
-	n_inter = ratio_ * len(preictal_segs) # Number of interictal segments for one preictal
 
 	# Get 1/0 segments within a give list of files
 	preictal_segs = [f for f in seg_files if "preictal" in f]
