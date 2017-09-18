@@ -6,7 +6,7 @@ The data is made up uf raw EEG signals in a number of channels. The data needs t
 be processed to construct features for modelling. This is achieved by the functions in the **utils** folder. 
 Below are the desciption of these utilities. 
 
-A simple summary of data preparation is explained in this [notebook](https://github.com/bhimmetoglu/seizure-forecast/blob/master/data_preparation.ipynb).
+A simple summary of data preparation is explained in this [notebook](https://github.com/bhimmetoglu/time-series-medicine/blob/master/EEG/data_preparation.ipynb).
 
 Below is a description of data processing steps implemented in `utils`  
 
