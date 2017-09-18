@@ -1,6 +1,8 @@
-# seizure-forecast
+# time-series-medicine
 
-The aim of this project is to study EEG signals from subjects with epilepsy and predict oncoming seizures. The data is a collection of segments which contain recordings of signals in multiple channels. Each segment is to be classified as
+The aim of this project is to study time-series data in healthcare and medical data. 
+
+The first dataset is EEG signals from subjects with epilepsy. The data is a collection of segments which contain recordings of signals in multiple channels. Each segment is to be classified as
 preictal (oncoming seizure) or interictal (no seizure). Two main approaches are adopted for the task of classifying the 
 segments:
 
